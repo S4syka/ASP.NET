@@ -12,6 +12,11 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+app.Run(async context =>
+{
+    await context.Response.WriteAsync("Hello from the middleware component");
+});
+
 app.MapControllers();
 
 app.Run();
