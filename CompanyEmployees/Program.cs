@@ -8,6 +8,8 @@ builder.Services.AddControllers();
 
 builder.Services.ConfigureCors();
 
+builder.Services.ConfigureIISIntegration();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -1,4 +1,6 @@
-﻿namespace CompanyEmployees.Extensions;
+﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
+
+namespace CompanyEmployees.Extensions;
 
 public static class ServiceExtensions
 {
@@ -10,6 +12,14 @@ public static class ServiceExtensions
                 builder.AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader());
+        });
+    }
+
+    public static void ConfigureIISIntegration(this IServiceCollection services)
+    {
+        services.Configure<IISOptions>(options =>
+        {
+
         });
     }
 }
