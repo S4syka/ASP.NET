@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\erekl\\source\\repos\\ASP.NET\\CompanyEmployees\\CompanyEmployees.csproj": {}
+    "C:\\Users\\erekl\\source\\repos\\ASP.NET\\CompanyEmployees\\CompanyEmployees\\CompanyEmployees.csproj": {}
   },
   "projects": {
-    "C:\\Users\\erekl\\source\\repos\\ASP.NET\\CompanyEmployees\\CompanyEmployees.csproj": {
+    "C:\\Users\\erekl\\source\\repos\\ASP.NET\\CompanyEmployees\\CompanyEmployees\\CompanyEmployees.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\erekl\\source\\repos\\ASP.NET\\CompanyEmployees\\CompanyEmployees.csproj",
+        "projectUniqueName": "C:\\Users\\erekl\\source\\repos\\ASP.NET\\CompanyEmployees\\CompanyEmployees\\CompanyEmployees.csproj",
         "projectName": "CompanyEmployees",
-        "projectPath": "C:\\Users\\erekl\\source\\repos\\ASP.NET\\CompanyEmployees\\CompanyEmployees.csproj",
+        "projectPath": "C:\\Users\\erekl\\source\\repos\\ASP.NET\\CompanyEmployees\\CompanyEmployees\\CompanyEmployees.csproj",
         "packagesPath": "C:\\Users\\erekl\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\erekl\\source\\repos\\ASP.NET\\CompanyEmployees\\obj\\",
+        "outputPath": "C:\\Users\\erekl\\source\\repos\\ASP.NET\\CompanyEmployees\\CompanyEmployees\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
