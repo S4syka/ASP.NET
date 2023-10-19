@@ -17,6 +17,13 @@ app.Run(async context =>
     await context.Response.WriteAsync("Hello from the middleware component");
 });
 
+app.Use(async (context, next) =>
+{
+    await Console.Out.WriteLineAsync($"Logic before executing the next delegate in the Use method");
+    await next();
+    await Console.Out.WriteLineAsync($"Logic after executing the next delegate in the Use method");
+});
+
 app.MapControllers();
 
 app.Run();
