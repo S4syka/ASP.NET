@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
+﻿using Contracts;
+using LoggerService;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace CompanyEmployees.Extensions;
 
@@ -21,5 +23,10 @@ public static class ServiceExtensions
         {
 
         });
+    }
+
+    public static void ConfigureLoggerService(this IServiceCollection services)
+    {
+        services.AddSingleton<ILoggerManager, LoggerManager>();
     }
 }
