@@ -31,7 +31,7 @@ app.Map("/usingmapbranch", builder =>
     {
         Console.WriteLine("Map branch RUN logic");
         await context.Response.WriteAsync("Hello from the middleware map branch");
-    })
+    });
 });
 app.Run(async context =>
 {
