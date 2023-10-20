@@ -2,8 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\CompanyEmployees",
+    "\\CompanyEmployees\\CompanyEmployees",
     "\\MiddlewareExample"
   ],
-  "SelectedNode": "\\CompanyEmployees\\Program.cs",
+  "SelectedNode": "\\CompanyEmployees\\CompanyEmployees.sln",
   "PreviewInSolutionExplorer": false
 }
