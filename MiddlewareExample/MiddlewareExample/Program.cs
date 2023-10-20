@@ -15,16 +15,31 @@ app.UseAuthorization();
 
 app.Use(async (context, next) =>
 {
-    await Console.Out.WriteLineAsync($"Logic before executing the next delegate in the Use method");
+    await context.Response.WriteAsync("Hello from the middleware component.");
     await next();
-    await Console.Out.WriteLineAsync($"Logic after executing the next delegate in the Use method");
+    Console.WriteLine($"Logic after executing the next delegate in the Use method");
+});
+app.Map("/usingmapbranch", builder =>
+{
+    builder.Use(async (context, next) =>
+    {
+        Console.WriteLine("Map branch USE logic before the call of next delegate");
+        await next();
+        Console.WriteLine("Map branch USE logic after the call of next delegate");
+    });
+    builder.Run(async context =>
+    {
+        Console.WriteLine("Map branch RUN logic");
+        await context.Response.WriteAsync("Hello from the middleware map branch");
+    })
 });
 app.Run(async context =>
 {
-    await Console.Out.WriteLineAsync($"Writing the respone in the Run method");
-    await context.Response.WriteAsync("Hello from the last middleware component");
+    Console.WriteLine($"Writing the response to the client in the Run method");
+    context.Response.StatusCode = 200;
+    await context.Response.WriteAsync("Hello from the middleware component.");
 });
-
 app.MapControllers();
 
 app.Run();
+  
