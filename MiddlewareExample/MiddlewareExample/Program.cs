@@ -15,7 +15,7 @@ app.UseAuthorization();
 
 app.Use(async (context, next) =>
 {
-    await context.Response.WriteAsync("Hello from the middleware component.");
+    //await context.Response.WriteAsync("Hello from the middleware component.");
     await next();
     Console.WriteLine($"Logic after executing the next delegate in the Use method");
 });
@@ -38,8 +38,16 @@ app.Run(async context =>
     Console.WriteLine($"Writing the response to the client in the Run method");
     context.Response.StatusCode = 200;
     await context.Response.WriteAsync("Hello from the middleware component.");
+}); 
+
+app.MapWhen(context => context.Request.Query.ContainsKey("testquerystring"), builder =>
+{
+    builder.Run(async context =>
+    {
+        await context.Response.WriteAsync("Hello from the MapWhen branch.");
+    });
 });
+
 app.MapControllers();
 
 app.Run();
-  
