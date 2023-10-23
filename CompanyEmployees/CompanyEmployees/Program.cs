@@ -30,4 +30,5 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 app.UseCors("CorsPolicy");
 app.UseAuthorization();
 app.MapControllers();
+Console.WriteLine("pizdec???");
 app.Run();
