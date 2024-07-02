@@ -1,7 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\CompanyEmployees",
+    "\\CompanyEmployees\\CompanyEmployees",
+    "\\CompanyEmployees\\Entities",
+    "\\CompanyEmployees\\Entities\\Models"
   ],
-  "SelectedNode": "\\CompanyEmployees.sln",
   "PreviewInSolutionExplorer": false
 }

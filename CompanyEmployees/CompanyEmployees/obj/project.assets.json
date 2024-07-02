@@ -1314,6 +1314,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v7.0",
         "dependencies": {
+          "Contracts": "1.0.0",
           "Entities": "1.0.0",
           "Microsoft.EntityFrameworkCore": "7.0.12"
         },
@@ -3365,11 +3366,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\erekl\\source\\repos\\ASP.NET\\CompanyEmployees\\CompanyEmployees\\CompanyEmployees.csproj",
+      "projectUniqueName": "C:\\Users\\erekl\\Source\\Repos\\S4syka\\ASP.NET\\CompanyEmployees\\CompanyEmployees\\CompanyEmployees.csproj",
       "projectName": "CompanyEmployees",
-      "projectPath": "C:\\Users\\erekl\\source\\repos\\ASP.NET\\CompanyEmployees\\CompanyEmployees\\CompanyEmployees.csproj",
+      "projectPath": "C:\\Users\\erekl\\Source\\Repos\\S4syka\\ASP.NET\\CompanyEmployees\\CompanyEmployees\\CompanyEmployees.csproj",
       "packagesPath": "C:\\Users\\erekl\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\erekl\\source\\repos\\ASP.NET\\CompanyEmployees\\CompanyEmployees\\obj\\",
+      "outputPath": "C:\\Users\\erekl\\Source\\Repos\\S4syka\\ASP.NET\\CompanyEmployees\\CompanyEmployees\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -3391,11 +3392,11 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "C:\\Users\\erekl\\source\\repos\\ASP.NET\\CompanyEmployees\\LoggerService\\LoggerService.csproj": {
-              "projectPath": "C:\\Users\\erekl\\source\\repos\\ASP.NET\\CompanyEmployees\\LoggerService\\LoggerService.csproj"
+            "C:\\Users\\erekl\\Source\\Repos\\S4syka\\ASP.NET\\CompanyEmployees\\LoggerService\\LoggerService.csproj": {
+              "projectPath": "C:\\Users\\erekl\\Source\\Repos\\S4syka\\ASP.NET\\CompanyEmployees\\LoggerService\\LoggerService.csproj"
             },
-            "C:\\Users\\erekl\\source\\repos\\ASP.NET\\CompanyEmployees\\Repository\\Repository.csproj": {
-              "projectPath": "C:\\Users\\erekl\\source\\repos\\ASP.NET\\CompanyEmployees\\Repository\\Repository.csproj"
+            "C:\\Users\\erekl\\Source\\Repos\\S4syka\\ASP.NET\\CompanyEmployees\\Repository\\Repository.csproj": {
+              "projectPath": "C:\\Users\\erekl\\Source\\Repos\\S4syka\\ASP.NET\\CompanyEmployees\\Repository\\Repository.csproj"
             }
           }
         }
@@ -3404,6 +3405,11 @@
         "warnAsError": [
           "NU1605"
         ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -3444,7 +3450,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.302\\RuntimeIdentifierGraph.json"
       }
     }
   }
