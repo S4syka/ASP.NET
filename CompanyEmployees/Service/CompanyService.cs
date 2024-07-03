@@ -2,6 +2,7 @@
 using Contracts.Repositories;
 using Entities.Models;
 using Service.Contracts;
+using Shared.DataTransferObjects;
 
 namespace Service;
 
@@ -16,11 +17,14 @@ internal sealed class CompanyService : ICompanyService
         _logger = loggerManager;
     }
 
-    public IEnumerable<Company> GetAllCompanies(bool trackChanges)
+    public IEnumerable<CompanyDTO> GetAllCompanies(bool trackChanges)
     {
         try
         {
-            return _repositoryManager.Company.GetAllCompanies(trackChanges);
+            var companyEntities = _repositoryManager.Company.GetAllCompanies(trackChanges);
+            var companyDTOs = companyEntities.Select(c => new CompanyDTO(c.Id, c.Name ?? "", string.Join(' ', c.Address, c.Country))).ToList();
+
+            return companyDTOs;
         }
         catch(Exception ex)
         {
