@@ -1,8 +1,9 @@
 ﻿using Contracts;
 using Contracts.Repositories;
 using LoggerService;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Repository;
+using Service.Contracts;
+using Service;
 
 namespace CompanyEmployees.Extensions;
 
@@ -35,5 +36,10 @@ public static class ServiceExtensions
     public static void ConfigureRepositoryManager(this IServiceCollection services)
     {
         services.AddScoped<IRepositoryManager, RepositoryManager>();
+    }
+
+    public static void ConfigureServiceManager(this IServiceCollection services)
+    {
+       services.AddScoped<IServiceManager, ServiceManager>();
     }
 }
