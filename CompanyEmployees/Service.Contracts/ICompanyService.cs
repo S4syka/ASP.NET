@@ -6,4 +6,5 @@ public interface ICompanyService
 {
     public IEnumerable<CompanyDTO> GetAllCompanies(bool trackChanges);
     public CompanyDTO GetCompany(Guid companyId, bool trackChanges);
+    public CompanyDTO CreateCompany(CompanyForCreationDTO company);
 }
