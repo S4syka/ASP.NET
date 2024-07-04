@@ -23,13 +23,6 @@ public class CompaniesController : ControllerBase
     [HttpGet]
     public IActionResult GetCompanies()
     {
-        try
-        {
-            return Ok(_serviceManager.CompanyService.GetAllCompanies(false));
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, "Internal server error");
-        }
+        return Ok(_serviceManager.CompanyService.GetAllCompanies(false));
     }
 }
