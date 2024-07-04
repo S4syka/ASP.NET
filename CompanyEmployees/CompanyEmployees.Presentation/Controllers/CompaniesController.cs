@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 
 namespace CompanyEmployees.Presentation.Controllers;
@@ -21,16 +15,8 @@ public class CompaniesController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult GetCompanies()
-    {
-        return Ok(_serviceManager.CompanyService.GetAllCompanies(false));
-    }
+    public IActionResult GetCompanies() => Ok(_serviceManager.CompanyService.GetAllCompanies(false));
 
     [HttpGet("{id:guid}")]
-    public IActionResult GetCompany(Guid id)
-    {
-        var company = _serviceManager.CompanyService.GetCompany(id, false);
-
-        return company is null ? NotFound() : Ok(company);
-    }
+    public IActionResult GetCompany(Guid id) => Ok(_serviceManager.CompanyService.GetCompany(id, false));
 }
