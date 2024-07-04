@@ -21,4 +21,7 @@ public class EmployeesController:ControllerBase
 
     [HttpGet]
     public IActionResult GetEmployeesForCompany(Guid companyId) => Ok(_serviceManager.EmployeeService.GetEmployees(companyId, false));
+
+    [HttpGet("{id:guid}")]
+    public IActionResult GetEmployeeForCompany(Guid companyId, Guid id) => Ok(_serviceManager.EmployeeService.GetEmployee(companyId, id, false));
 }
