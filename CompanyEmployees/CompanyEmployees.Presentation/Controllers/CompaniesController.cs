@@ -25,4 +25,12 @@ public class CompaniesController : ControllerBase
     {
         return Ok(_serviceManager.CompanyService.GetAllCompanies(false));
     }
+
+    [HttpGet("{id:guid}")]
+    public IActionResult GetCompany(Guid id)
+    {
+        var company = _serviceManager.CompanyService.GetCompany(id, false);
+
+        return company is null ? NotFound() : Ok(company);
+    }
 }
