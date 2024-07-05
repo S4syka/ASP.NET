@@ -14,4 +14,5 @@ public interface ICompanyRepository
     public Company? GetCompany(Guid companyId, bool trackChanges);
     public IEnumerable<Company> GetByIds(IEnumerable<Guid> ids, bool trackChanges);
     public void CreateCompany(Company company);
+    public void DeleteCompany(Company company);
 }
