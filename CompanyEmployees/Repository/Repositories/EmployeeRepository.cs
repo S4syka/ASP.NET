@@ -23,6 +23,8 @@ public class EmployeeRepository : RepositoryBase<Employee>, IEmployeeRepository
         .OrderBy(e => e.Name)
         .ToList();
 
+    public void DeleteEmployee(Employee employee) => Delete(employee);
+    
     public void CreateEmployeeForCompany(Guid companyId, Employee employee)
     {
         employee.CompanyId = companyId;

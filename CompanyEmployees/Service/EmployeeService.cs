@@ -56,8 +56,8 @@ internal sealed class EmployeeService : IEmployeeService
 
     public EmployeeDTO CreateEmployeeForCompany(Guid companyId, EmployeeForCreationDTO employee, bool trackChanges)
     {
-        var company = _repositoryManager.Company.GetCompany(companyId, trackChanges);
-        if (company is null)
+        var companyEntity = _repositoryManager.Company.GetCompany(companyId, trackChanges);
+        if (companyEntity is null)
         {
             throw new CompanyNotFoundException(companyId);
         }
@@ -70,5 +70,23 @@ internal sealed class EmployeeService : IEmployeeService
         var employeeDTO = _mapper.Map<EmployeeDTO>(employeeEntity);
 
         return employeeDTO;
+    }
+
+    public void DeleteEmployeeForCompany(Guid companyId, Guid id, bool trackChanges)
+    {
+        var companyEntity = _repositoryManager.Company.GetCompany(companyId, trackChanges);
+        if(companyEntity is null)
+        {
+            throw new CompanyNotFoundException(companyId);
+        }
+
+        var employeeEntity = _repositoryManager.Employee.GetEmployee(companyId, id, trackChanges);
+        if (employeeEntity is null)
+        {
+            throw new EmployeeNotFoundException(id);
+        }
+
+        _repositoryManager.Employee.DeleteEmployee(employeeEntity);
+        _repositoryManager.Save();
     }
 }
