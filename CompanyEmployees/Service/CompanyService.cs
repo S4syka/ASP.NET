@@ -23,6 +23,11 @@ internal sealed class CompanyService : ICompanyService
 
     public CompanyDTO CreateCompany(CompanyForCreationDTO company)
     {
+        if(company is null)
+        {
+            throw new CompanyForCreationBadRequestException();
+        }
+
         var companyEntity = _mapper.Map<Company>(company);
 
         _repositoryManager.Company.CreateCompany(companyEntity);
@@ -30,6 +35,26 @@ internal sealed class CompanyService : ICompanyService
 
         var companyDTO = _mapper.Map<CompanyDTO>(companyEntity);
         return companyDTO;
+    }
+
+    public (IEnumerable<CompanyDTO>, string ids) CreateCompanyCollection(IEnumerable<CompanyForCreationDTO> companyCollection)
+    {
+        if(companyCollection == null)
+        {
+            throw new CompanyCollectionBadRequestException();
+        }
+
+        var companyEntities = _mapper.Map<IEnumerable<Company>>(companyCollection);
+
+        foreach (var companyEntity in companyEntities)
+        {
+            _repositoryManager.Company.CreateCompany(companyEntity);
+        }
+        _repositoryManager.Save();
+
+        var companyDTOs = _mapper.Map<IEnumerable<CompanyDTO>>(companyEntities);
+        string ids = string.Join(",", companyDTOs.Select(c => c.Id));
+        return (companyDTOs, ids);
     }
 
     public IEnumerable<CompanyDTO> GetAllCompanies(bool trackChanges)

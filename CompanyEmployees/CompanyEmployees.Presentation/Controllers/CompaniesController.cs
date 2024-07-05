@@ -21,19 +21,22 @@ public class CompaniesController : ControllerBase
     [HttpGet("{id:guid}", Name = "CompanyById")]
     public IActionResult GetCompany(Guid id) => Ok(_serviceManager.CompanyService.GetCompany(id, false));
 
-    [HttpGet("Collection/({ids})", Name = "CompanyCollection")]
+    [HttpGet("collection/({ids})", Name = "CompanyCollection")]
     public IActionResult GetCompanyCollection(IEnumerable<Guid> ids) => Ok(_serviceManager.CompanyService.GetByIds(ids, false));
 
     [HttpPost]
     public IActionResult CreateCompany([FromBody] CompanyForCreationDTO company)
     {
-        if (company is null)
-        {
-            return BadRequest("CompanyForCreationDTO object is null");
-        }
-
         var createdCompany = _serviceManager.CompanyService.CreateCompany(company);
 
         return CreatedAtRoute("CompanyById", new { id = createdCompany.Id }, createdCompany);
+    }
+
+    [HttpPost("Collection")]
+    public IActionResult CreateCompanyCollecition([FromBody] IEnumerable<CompanyForCreationDTO> companyCollection)
+    {
+        var (companyDTOs, ids) = _serviceManager.CompanyService.CreateCompanyCollection(companyCollection);
+
+        return CreatedAtRoute("CompanyCollection", new { ids }, companyDTOs);
     }
 }
