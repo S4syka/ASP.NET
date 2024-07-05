@@ -45,4 +45,11 @@ public class EmployeesController:ControllerBase
         _serviceManager.EmployeeService.DeleteEmployeeForCompany(companyId, id, false);
         return NoContent();
     }
+
+    [HttpPut("{id:guid}")]
+    public IActionResult  UpdateEmployeeForCompany(Guid companyId, Guid id, [FromBody] EmployeeForUpdateDTO employee)
+    {
+        _serviceManager.EmployeeService.UpdateEmployeeForCompany(companyId, id, employee, false, true);
+        return NoContent();
+    }
 }

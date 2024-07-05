@@ -8,4 +8,5 @@ public interface IEmployeeService
     public EmployeeDTO GetEmployee(Guid companyId, Guid id, bool trackChanges);
     public EmployeeDTO CreateEmployeeForCompany(Guid companyId, EmployeeForCreationDTO employee, bool trackChanges);
     public void DeleteEmployeeForCompany(Guid companyId, Guid id, bool trackChanges);
+    public void UpdateEmployeeForCompany(Guid companyId, Guid id, EmployeeForUpdateDTO employeeForUpdate, bool compTrackChanges, bool empTrackChanges);
 }

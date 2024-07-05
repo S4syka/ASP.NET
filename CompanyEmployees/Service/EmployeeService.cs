@@ -50,7 +50,6 @@ internal sealed class EmployeeService : IEmployeeService
         }
 
         var employeeDTO = _mapper.Map<EmployeeDTO>(employeeEntity);
-
         return employeeDTO;
     }
 
@@ -68,7 +67,6 @@ internal sealed class EmployeeService : IEmployeeService
         _repositoryManager.Save();
 
         var employeeDTO = _mapper.Map<EmployeeDTO>(employeeEntity);
-
         return employeeDTO;
     }
 
@@ -87,6 +85,29 @@ internal sealed class EmployeeService : IEmployeeService
         }
 
         _repositoryManager.Employee.DeleteEmployee(employeeEntity);
+        _repositoryManager.Save();
+    }
+
+    public void UpdateEmployeeForCompany(Guid companyId, Guid id, EmployeeForUpdateDTO employeeForUpdate, bool compTrackChanges, bool empTrackChanges)
+    {
+        var companyEntity = _repositoryManager.Company.GetCompany(companyId, compTrackChanges);
+        if (companyEntity is null)
+        {
+            throw new CompanyNotFoundException(companyId);
+        }
+
+        var employeeEntity = _repositoryManager.Employee.GetEmployee(companyId, id, empTrackChanges);
+        if (employeeEntity is null)
+        {
+            throw new EmployeeNotFoundException(id);
+        }
+
+        if(employeeForUpdate is null)
+        {
+            throw new EmployeeForUpdateBadRequestException();
+        }
+
+        _mapper.Map(employeeForUpdate, employeeEntity);
         _repositoryManager.Save();
     }
 }
