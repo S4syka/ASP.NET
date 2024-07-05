@@ -6,4 +6,4 @@ using System.Threading.Tasks;
 
 namespace Shared.DataTransferObjects;
 
-public record CompanyForCreationDTO(string Name, string Address, string Country);
+public record CompanyForCreationDTO(string Name, string Address, string Country, IEnumerable<EmployeeForCreationDTO> Employees);
