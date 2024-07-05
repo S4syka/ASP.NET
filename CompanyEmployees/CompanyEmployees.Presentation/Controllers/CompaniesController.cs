@@ -21,6 +21,9 @@ public class CompaniesController : ControllerBase
     [HttpGet("{id:guid}", Name = "CompanyById")]
     public IActionResult GetCompany(Guid id) => Ok(_serviceManager.CompanyService.GetCompany(id, false));
 
+    [HttpGet("Collection/({ids})", Name = "CompanyCollection")]
+    public IActionResult GetCompanyCollection(IEnumerable<Guid> ids) => Ok(_serviceManager.CompanyService.GetByIds(ids, false));
+
     [HttpPost]
     public IActionResult CreateCompany([FromBody] CompanyForCreationDTO company)
     {
