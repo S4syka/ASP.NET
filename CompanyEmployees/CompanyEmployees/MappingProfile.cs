@@ -4,7 +4,7 @@ using Shared.DataTransferObjects;
 
 namespace Service;
 
-public class MappingProfile:Profile
+public class MappingProfile : Profile
 {
     public MappingProfile()
     {
@@ -13,5 +13,6 @@ public class MappingProfile:Profile
         CreateMap<Employee, EmployeeDTO>();
         CreateMap<EmployeeForCreationDTO, Employee>();
         CreateMap<EmployeeForUpdateDTO, Employee>();
+        CreateMap<CompanyForUpdateDTO, Company>();
     }
 }

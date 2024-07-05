@@ -106,4 +106,21 @@ internal sealed class CompanyService : ICompanyService
 
         return companyDTO;
     }
+
+    public void UpdateCompany(Guid companyId, CompanyForUpdateDTO companyForUpdate, bool trackChanges)
+    {
+        var companyEntity = _repositoryManager.Company.GetCompany(companyId, trackChanges);
+        if (companyEntity is null)
+        {
+            throw new CompanyNotFoundException(companyId);
+        }
+
+        if(companyForUpdate is null)
+        {
+            throw new CompanyForCreationBadRequestException();
+        }
+
+        _mapper.Map(companyForUpdate, companyEntity);
+        _repositoryManager.Save();
+    }
 }
