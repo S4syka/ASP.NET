@@ -62,6 +62,16 @@ public class CompaniesController : ControllerBase
     [HttpPut("{id:guid}")]
     public IActionResult UpdateCompany(Guid id, [FromBody] CompanyForUpdateDTO company)
     {
+        if (company is null)
+        {
+            return BadRequest("CompanyForUpdateDto object is null");
+        }
+
+        if (!ModelState.IsValid)
+        {
+            return UnprocessableEntity(ModelState);
+        }
+
         _serviceManager.CompanyService.UpdateCompany(id, company, false);
         return NoContent();
     }
