@@ -36,6 +36,11 @@ public class EmployeesController:ControllerBase
             return BadRequest("EmployeeForCreationDTO object is null");
         }
 
+        if (!ModelState.IsValid) 
+        {
+            return UnprocessableEntity(ModelState);
+        }
+
         var employeeDTO = _serviceManager.EmployeeService.CreateEmployeeForCompany(companyId, employee, false);
 
         return CreatedAtRoute("GetEmployeeForCompany", new { companyId, id = employeeDTO.id }, employeeDTO);
@@ -56,17 +61,17 @@ public class EmployeesController:ControllerBase
     }
 
     [HttpPatch("{id:guid}")]
-    public IActionResult PartiallyUpdateEmployeeForCompany(Guid companyId, Guid id,
-[FromBody] JsonPatchDocument<EmployeeForUpdateDTO> patchDoc)
+    public IActionResult PartiallyUpdateEmployeeForCompany(Guid companyId, Guid id, [FromBody] JsonPatchDocument<EmployeeForUpdateDTO> patchDoc)
     {
         if (patchDoc is null)
+        {
             return BadRequest("patchDoc object sent from client is null.");
-        var result = _serviceManager.EmployeeService.GetEmployeeForPatch(companyId, id,
-        compTrackChanges: false,
-        empTrackChanges: true);
+        }
+
+        var result = _serviceManager.EmployeeService.GetEmployeeForPatch(companyId, id, false, true);
         patchDoc.ApplyTo(result.employeeToPatch);
-        _serviceManager.EmployeeService.SaveChangesForPatch(result.employeeToPatch,
-        result.employeeEntity);
+        _serviceManager.EmployeeService.SaveChangesForPatch(result.employeeToPatch, result.employeeEntity);
+
         return NoContent();
     }
 }

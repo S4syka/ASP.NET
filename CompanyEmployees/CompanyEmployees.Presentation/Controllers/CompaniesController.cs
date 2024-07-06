@@ -2,6 +2,7 @@
 using Service.Contracts;
 using Shared.DataTransferObjects;
 using CompanyEmployees.Presentation.ModelBinders;
+using Entities.Models;
 
 namespace CompanyEmployees.Presentation.Controllers;
 
@@ -28,6 +29,16 @@ public class CompaniesController : ControllerBase
     [HttpPost]
     public IActionResult CreateCompany([FromBody] CompanyForCreationDTO company)
     {
+        if (company is null)
+        {
+            return BadRequest("CompanyForCreationDTO object is null");
+        }
+
+        if (!ModelState.IsValid)
+        {
+            return UnprocessableEntity(ModelState);
+        }
+
         var createdCompany = _serviceManager.CompanyService.CreateCompany(company);
 
         return CreatedAtRoute("CompanyById", new { id = createdCompany.Id }, createdCompany);
