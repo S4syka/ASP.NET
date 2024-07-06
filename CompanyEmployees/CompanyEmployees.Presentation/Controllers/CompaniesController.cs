@@ -18,16 +18,16 @@ public class CompaniesController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult GetCompanies() => Ok(_serviceManager.CompanyService.GetAllCompanies(false));
+    public async Task<IActionResult> GetCompanies() => Ok(await _serviceManager.CompanyService.GetAllCompaniesAsync(false));
 
     [HttpGet("{id:guid}", Name = "CompanyById")]
-    public IActionResult GetCompany(Guid id) => Ok(_serviceManager.CompanyService.GetCompany(id, false));
+    public async Task<IActionResult> GetCompany(Guid id) => Ok(await _serviceManager.CompanyService.GetCompanyAsync(id, false));
 
     [HttpGet("collection/({ids})", Name = "CompanyCollection")]
-    public IActionResult GetCompanyCollection([ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable <Guid> ids) => Ok(_serviceManager.CompanyService.GetByIds(ids, false));
+    public async Task<IActionResult> GetCompanyCollection([ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable <Guid> ids) => Ok(await _serviceManager.CompanyService.GetByIdsAsync(ids, false));
 
     [HttpPost]
-    public IActionResult CreateCompany([FromBody] CompanyForCreationDTO company)
+    public async Task<IActionResult> CreateCompany([FromBody] CompanyForCreationDTO company)
     {
         if (company is null)
         {
@@ -39,28 +39,28 @@ public class CompaniesController : ControllerBase
             return UnprocessableEntity(ModelState);
         }
 
-        var createdCompany = _serviceManager.CompanyService.CreateCompany(company);
+        var createdCompany = await _serviceManager.CompanyService.CreateCompanyAsync(company);
 
         return CreatedAtRoute("CompanyById", new { id = createdCompany.Id }, createdCompany);
     }
 
     [HttpPost("Collection")]
-    public IActionResult CreateCompanyCollecition([FromBody] IEnumerable<CompanyForCreationDTO> companyCollection)
+    public async Task<IActionResult> CreateCompanyCollecition([FromBody] IEnumerable<CompanyForCreationDTO> companyCollection)
     {
-        var (companyDTOs, ids) = _serviceManager.CompanyService.CreateCompanyCollection(companyCollection);
+        var (companyDTOs, ids) = await _serviceManager.CompanyService.CreateCompanyCollectionAsync(companyCollection);
 
         return CreatedAtRoute("CompanyCollection", new { ids }, companyDTOs);
     }
 
     [HttpDelete("{id:guid}")]
-    public IActionResult DeleteCompany(Guid id)
+    public async Task<IActionResult> DeleteCompany(Guid id)
     {
-        _serviceManager.CompanyService.DeleteCompany(id, false);
+        await _serviceManager.CompanyService.DeleteCompanyAsync(id, false);
         return NoContent();
     }
 
     [HttpPut("{id:guid}")]
-    public IActionResult UpdateCompany(Guid id, [FromBody] CompanyForUpdateDTO company)
+    public async Task<IActionResult> UpdateCompany(Guid id, [FromBody] CompanyForUpdateDTO company)
     {
         if (company is null)
         {
@@ -72,7 +72,7 @@ public class CompaniesController : ControllerBase
             return UnprocessableEntity(ModelState);
         }
 
-        _serviceManager.CompanyService.UpdateCompany(id, company, false);
+        await _serviceManager.CompanyService.UpdateCompanyAsync(id, company, false);
         return NoContent();
     }
 }
