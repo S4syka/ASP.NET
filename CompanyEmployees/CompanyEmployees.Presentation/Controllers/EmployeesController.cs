@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects;
+using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -79,7 +80,15 @@ public class EmployeesController:ControllerBase
         }
 
         var result = _serviceManager.EmployeeService.GetEmployeeForPatch(companyId, id, false, true);
-        patchDoc.ApplyTo(result.employeeToPatch);
+
+        patchDoc.ApplyTo(result.employeeToPatch, ModelState);
+        TryValidateModel(result.employeeToPatch);
+
+        if (!ModelState.IsValid)
+        {
+            return UnprocessableEntity(ModelState);
+        }
+
         _serviceManager.EmployeeService.SaveChangesForPatch(result.employeeToPatch, result.employeeEntity);
 
         return NoContent();
