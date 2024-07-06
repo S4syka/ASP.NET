@@ -56,6 +56,16 @@ public class EmployeesController:ControllerBase
     [HttpPut("{id:guid}")]
     public IActionResult  UpdateEmployeeForCompany(Guid companyId, Guid id, [FromBody] EmployeeForUpdateDTO employee)
     {
+        if (employee is null)
+        {
+            return BadRequest("EmployeeForUpdateDto object is null");
+        }
+
+        if (!ModelState.IsValid)
+        {
+            return UnprocessableEntity(ModelState);
+        }
+
         _serviceManager.EmployeeService.UpdateEmployeeForCompany(companyId, id, employee, false, true);
         return NoContent();
     }
