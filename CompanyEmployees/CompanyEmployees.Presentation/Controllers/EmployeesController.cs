@@ -1,21 +1,15 @@
-﻿using Entities.Exceptions;
+﻿using CompanyEmployees.Presentation.ActionFilters;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects;
-using CompanyEmployees.Presentation.ActionFilters;
-using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Shared.RequestFeatures;
 
 namespace CompanyEmployees.Presentation.Controllers;
 
 [Route("api/companies/{companyId:guid}/employees")]
 [ApiController]
-public class EmployeesController:ControllerBase
+public class EmployeesController : ControllerBase
 {
     private readonly IServiceManager _serviceManager;
 
@@ -25,7 +19,7 @@ public class EmployeesController:ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetEmployeesForCompany(Guid companyId) => Ok(await _serviceManager.EmployeeService.GetEmployeesAsync(companyId, false));
+    public async Task<IActionResult> GetEmployeesForCompany(Guid companyId, [FromQuery] EmployeeParameters employeeParameters) => Ok(await _serviceManager.EmployeeService.GetEmployeesAsync(companyId, employeeParameters, false));
 
     [HttpGet("{id:guid}", Name = "GetEmployeeForCompany")]
     public async Task<IActionResult> GetEmployeeForCompany(Guid companyId, Guid id) => Ok(await _serviceManager.EmployeeService.GetEmployeeAsync(companyId, id, false));
@@ -33,7 +27,7 @@ public class EmployeesController:ControllerBase
     [HttpPost]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> CreateEmployeeForCompany(Guid companyId, [FromBody] EmployeeForCreationDTO employee)
-    { 
+    {
         var employeeDTO = await _serviceManager.EmployeeService.CreateEmployeeForCompanyAsync(companyId, employee, false);
         return CreatedAtRoute("GetEmployeeForCompany", new { companyId, id = employeeDTO.id }, employeeDTO);
     }
@@ -68,7 +62,7 @@ public class EmployeesController:ControllerBase
 
         return NoContent();
     }
-    
+
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> DeleteEmployeeForCompany(Guid companyId, Guid id)
     {

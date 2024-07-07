@@ -5,6 +5,7 @@ using AutoMapper;
 using Shared.DataTransferObjects;
 using Entities.Exceptions;
 using Entities.Models;
+using Shared.RequestFeatures;
 
 namespace Service;
 
@@ -21,11 +22,11 @@ internal sealed class EmployeeService : IEmployeeService
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<EmployeeDTO>> GetEmployeesAsync(Guid companyId, bool trackChanges)
+    public async Task<IEnumerable<EmployeeDTO>> GetEmployeesAsync(Guid companyId, EmployeeParameters parameters, bool trackChanges)
     {
         var companyEntity = await GetCompanyEntity(companyId, trackChanges);
 
-        var employeeEntities = await _repositoryManager.Employee.GetEmployeesAsync(companyId, trackChanges);
+        var employeeEntities = await _repositoryManager.Employee.GetEmployeesAsync(companyId, parameters, trackChanges);
         var employeeDTOs = _mapper.Map<IEnumerable<EmployeeDTO>>(employeeEntities);
 
         return employeeDTOs;
