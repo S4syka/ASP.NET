@@ -11,6 +11,7 @@ using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft;
 using System.Buffers;
+using CompanyEmployees.Presentation.ActionFilters;
 
 LogManager.Setup().LoadConfigurationFromFile(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
 
@@ -26,6 +27,7 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
     {
         options.SuppressModelStateInvalidFilter = true;
     });
+builder.Services.AddScoped<ValidationFilterAttribute>();
 builder.Services.AddControllers(config =>
     {
         config.RespectBrowserAcceptHeader = true;

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects;
+using CompanyEmployees.Presentation.ActionFilters;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using System;
 using System.Collections.Generic;
@@ -30,43 +31,17 @@ public class EmployeesController:ControllerBase
     public async Task<IActionResult> GetEmployeeForCompany(Guid companyId, Guid id) => Ok(await _serviceManager.EmployeeService.GetEmployeeAsync(companyId, id, false));
 
     [HttpPost]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> CreateEmployeeForCompany(Guid companyId, [FromBody] EmployeeForCreationDTO employee)
     { 
-        if(employee is null)
-        {
-            return BadRequest("EmployeeForCreationDTO object is null");
-        }
-
-        if (!ModelState.IsValid) 
-        {
-            return UnprocessableEntity(ModelState);
-        }
-
         var employeeDTO = await _serviceManager.EmployeeService.CreateEmployeeForCompanyAsync(companyId, employee, false);
-
         return CreatedAtRoute("GetEmployeeForCompany", new { companyId, id = employeeDTO.id }, employeeDTO);
     }
 
-    [HttpDelete("{id:guid}")]
-    public async Task<IActionResult> DeleteEmployeeForCompany(Guid companyId, Guid id)
-    {
-        await _serviceManager.EmployeeService.DeleteEmployeeForCompanyAsync(companyId, id, false);
-        return NoContent();
-    }
-
     [HttpPut("{id:guid}")]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> UpdateEmployeeForCompany(Guid companyId, Guid id, [FromBody] EmployeeForUpdateDTO employee)
     {
-        if (employee is null)
-        {
-            return BadRequest("EmployeeForUpdateDto object is null");
-        }
-
-        if (!ModelState.IsValid)
-        {
-            return UnprocessableEntity(ModelState);
-        }
-
         await _serviceManager.EmployeeService.UpdateEmployeeForCompanyAsync(companyId, id, employee, false, true);
         return NoContent();
     }
@@ -91,6 +66,13 @@ public class EmployeesController:ControllerBase
 
         await _serviceManager.EmployeeService.SaveChangesForPatchAsync(result.employeeToPatch, result.employeeEntity);
 
+        return NoContent();
+    }
+    
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> DeleteEmployeeForCompany(Guid companyId, Guid id)
+    {
+        await _serviceManager.EmployeeService.DeleteEmployeeForCompanyAsync(companyId, id, false);
         return NoContent();
     }
 }

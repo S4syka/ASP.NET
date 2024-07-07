@@ -3,6 +3,7 @@ using Service.Contracts;
 using Shared.DataTransferObjects;
 using CompanyEmployees.Presentation.ModelBinders;
 using Entities.Models;
+using CompanyEmployees.Presentation.ActionFilters;
 
 namespace CompanyEmployees.Presentation.Controllers;
 
@@ -27,20 +28,10 @@ public class CompaniesController : ControllerBase
     public async Task<IActionResult> GetCompanyCollection([ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable <Guid> ids) => Ok(await _serviceManager.CompanyService.GetByIdsAsync(ids, false));
 
     [HttpPost]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> CreateCompany([FromBody] CompanyForCreationDTO company)
     {
-        if (company is null)
-        {
-            return BadRequest("CompanyForCreationDTO object is null");
-        }
-
-        if (!ModelState.IsValid)
-        {
-            return UnprocessableEntity(ModelState);
-        }
-
         var createdCompany = await _serviceManager.CompanyService.CreateCompanyAsync(company);
-
         return CreatedAtRoute("CompanyById", new { id = createdCompany.Id }, createdCompany);
     }
 
@@ -48,7 +39,6 @@ public class CompaniesController : ControllerBase
     public async Task<IActionResult> CreateCompanyCollecition([FromBody] IEnumerable<CompanyForCreationDTO> companyCollection)
     {
         var (companyDTOs, ids) = await _serviceManager.CompanyService.CreateCompanyCollectionAsync(companyCollection);
-
         return CreatedAtRoute("CompanyCollection", new { ids }, companyDTOs);
     }
 
@@ -60,18 +50,9 @@ public class CompaniesController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> UpdateCompany(Guid id, [FromBody] CompanyForUpdateDTO company)
     {
-        if (company is null)
-        {
-            return BadRequest("CompanyForUpdateDto object is null");
-        }
-
-        if (!ModelState.IsValid)
-        {
-            return UnprocessableEntity(ModelState);
-        }
-
         await _serviceManager.CompanyService.UpdateCompanyAsync(id, company, false);
         return NoContent();
     }
