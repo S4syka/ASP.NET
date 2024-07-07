@@ -22,14 +22,19 @@ internal sealed class EmployeeService : IEmployeeService
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<EmployeeDTO>> GetEmployeesAsync(Guid companyId, EmployeeParameters parameters, bool trackChanges)
+    public async Task<(IEnumerable<EmployeeDTO> employees, MetaData metaData)> GetEmployeesAsync(Guid companyId, EmployeeParameters parameters, bool trackChanges)
     {
+        if (!parameters.ValidAgeRange)
+        {
+            throw new MaxAgeRangeBadRequestException();
+        }
+
         var companyEntity = await GetCompanyEntity(companyId, trackChanges);
 
-        var employeeEntities = await _repositoryManager.Employee.GetEmployeesAsync(companyId, parameters, trackChanges);
-        var employeeDTOs = _mapper.Map<IEnumerable<EmployeeDTO>>(employeeEntities);
+        var employeeEntitiesWithMetaData = await _repositoryManager.Employee.GetEmployeesAsync(companyId, parameters, trackChanges);
+        var employeeDTOs = _mapper.Map<IEnumerable<EmployeeDTO>>(employeeEntitiesWithMetaData);
 
-        return employeeDTOs;
+        return (employeeDTOs, employeeEntitiesWithMetaData.MetaData);
     }
 
     public async Task<EmployeeDTO> GetEmployeeAsync(Guid companyId, Guid id, bool trackChanges)

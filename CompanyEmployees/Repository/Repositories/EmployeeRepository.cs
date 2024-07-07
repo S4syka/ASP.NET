@@ -20,13 +20,17 @@ public class EmployeeRepository : RepositoryBase<Employee>, IEmployeeRepository
         => await FindByCondition(e => e.CompanyId.Equals(companyId) && e.Id.Equals(id), trackChanges)
         .SingleOrDefaultAsync();
 
-    public async Task<IEnumerable<Employee>> GetEmployeesAsync(Guid companyId, EmployeeParameters parameters, bool trackChanges)
+    public async Task<PagedList<Employee>> GetEmployeesAsync(Guid companyId, EmployeeParameters parameters, bool trackChanges)
     {
-        return await FindByCondition(e => e.CompanyId.Equals(companyId), trackChanges)
+        var employees =  await FindByCondition(e => e.CompanyId.Equals(companyId) && (e.Age >= parameters.MinAge && e.Age <= parameters.MaxAge), trackChanges)
         .OrderBy(e => e.Name)
         .Skip((parameters.PageNumber - 1) * parameters.PageSize)
         .Take(parameters.PageSize)
         .ToListAsync();
+
+        var employeesCount = await FindByCondition(e => e.CompanyId.Equals(companyId), trackChanges).CountAsync();
+
+        return new PagedList<Employee>(employees, employeesCount, parameters.PageNumber, parameters.PageSize);
     }
 
     public void DeleteEmployee(Employee employee) => Delete(employee);
