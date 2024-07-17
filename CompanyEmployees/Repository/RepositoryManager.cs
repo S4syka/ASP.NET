@@ -1,28 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Contracts.Repositories;
-using Repository.Repositories;
+﻿using Contracts;
 
 namespace Repository;
 
-public class RepositoryManager : IRepositoryManager
+public sealed class RepositoryManager : IRepositoryManager
 {
-    private readonly RepositoryContext _repositoryContext;
-    private readonly Lazy<ICompanyRepository> _companyRepository;
-    private readonly Lazy<IEmployeeRepository> _employeeRepository;
+	private readonly RepositoryContext _repositoryContext;
+	private readonly Lazy<ICompanyRepository> _companyRepository;
+	private readonly Lazy<IEmployeeRepository> _employeeRepository;
 
-    public RepositoryManager(RepositoryContext context)
-    {
-        _repositoryContext = context;
-        _companyRepository = new Lazy<ICompanyRepository>(() => new CompanyRepository(context));
-        _employeeRepository = new Lazy<IEmployeeRepository>(() => new EmployeeRepository(context));
-    }
+	public RepositoryManager(RepositoryContext repositoryContext)
+	{
+		_repositoryContext = repositoryContext;
+		_companyRepository = new Lazy<ICompanyRepository>(() => new CompanyRepository(repositoryContext));
+		_employeeRepository = new Lazy<IEmployeeRepository>(() => new EmployeeRepository(repositoryContext));
+	}
 
-    public ICompanyRepository Company => _companyRepository.Value;
-    public IEmployeeRepository Employee => _employeeRepository.Value;
+	public ICompanyRepository Company => _companyRepository.Value;
+	public IEmployeeRepository Employee => _employeeRepository.Value;
 
-    public async Task SaveAsync() => await _repositoryContext.SaveChangesAsync();
+	public async Task SaveAsync() => await _repositoryContext.SaveChangesAsync();
 }

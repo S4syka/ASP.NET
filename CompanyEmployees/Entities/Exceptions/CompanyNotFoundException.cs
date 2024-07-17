@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Entities.Exceptions;
 
-namespace Entities.Exceptions;
-
-public class CompanyNotFoundException : NotFoundException
+public sealed class CompanyNotFoundException : NotFoundException
 {
-    public CompanyNotFoundException(Guid id) : base($"Company with id - {id} doesn't exist in the database.") { }
+	public CompanyNotFoundException(Guid companyId)
+		: base($"The company with id: {companyId} doesn't exist in the database.")
+	{
+	}
 }
